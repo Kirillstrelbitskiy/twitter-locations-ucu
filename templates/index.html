@@ -1,0 +1,25 @@
+<html>
+
+<head>
+    <title>Twitter Friends Locations</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='styles/index.css') }}">
+</head>
+
+<body>
+    <h1 class="name">Twitter Friends Locations</h1>
+
+    <div class="form">
+        <form method="POST">
+            <input class="input_field" type="text" name="username" placeholder="Enter user's name">
+            <input class="submit_button" type="submit">
+        </form>
+    </div>
+
+    <div class="flashes">
+        {% for message in get_flashed_messages() %}
+        {{ message }}
+        {% endfor %}
+    </div>
+</body>
+
+</html>
