@@ -10,14 +10,14 @@ from wtforms.validators import DataRequired
 
 from geopy.geocoders import Nominatim
 
-consumer_key = "v5a1250pNEYgNsD3J9MFiicxm"
-consumer_secret = "15OOiUz5T1yfho9zmFn9KJCtu9ZJRq13Rl86vhD0dhuUX6sH3g"
-access_token_key = "950059146715582465-7ewp0GPlLVmYeq8IgCkGYlqk1N4s5GS"
-access_token_secret = "9WQZ4UW7HjDG4Q0zbbbGMsvsE5HTFfacMREEwQt03i5e3"
+consumer_key = "enter_yourself"
+consumer_secret = "enter_yourself"
+access_token_key = "enter_yourself"
+access_token_secret = "enter_yourself"
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
+app.config['SECRET_KEY'] = 'v'
 
 
 @app.route('/', methods=['GET', 'POST'])
