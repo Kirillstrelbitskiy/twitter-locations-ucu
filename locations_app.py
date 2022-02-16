@@ -10,14 +10,14 @@ from wtforms.validators import DataRequired
 
 from geopy.geocoders import Nominatim
 
-consumer_key = "enter_yourself"
-consumer_secret = "enter_yourself"
-access_token_key = "enter_yourself"
-access_token_secret = "enter_yourself"
+consumer_key = "v5a1250pNEYgNsD3J9MFiicxm"
+consumer_secret = "15OOiUz5T1yfho9zmFn9KJCtu9ZJRq13Rl86vhD0dhuUX6sH3g"
+access_token_key = "950059146715582465-7ewp0GPlLVmYeq8IgCkGYlqk1N4s5GS"
+access_token_secret = "9WQZ4UW7HjDG4Q0zbbbGMsvsE5HTFfacMREEwQt03i5e3"
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'enter_yourself'
+app.config['SECRET_KEY'] = 'C2HWGVoMGfNTBsrYQg8EcMrdTimkZfAb'
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -27,14 +27,15 @@ def index():
     if request.method == 'POST':
         username = request.form.get('username')
 
-        locations_data = get_users_locations(username)
+        if username:
+            locations_data = get_users_locations(username)
 
-        for user in locations_data:
-            if user[2]:
-                folium.Marker(
-                    [user[2].latitude, user[2].longitude],
-                    popup="<p><b>" + user[0] + "</b><br>" + user[1] + "</p>",
-                ).add_to(folium_map)
+            for user in locations_data:
+                if user[2]:
+                    folium.Marker(
+                        [user[2].latitude, user[2].longitude],
+                        popup="<p><b>" + user[0] + "</b><br>" + user[1] + "</p>",
+                    ).add_to(folium_map)
 
     map_html = Markup(folium_map._repr_html_())
     flash(map_html)
@@ -52,14 +53,17 @@ def get_users_locations(user_name: str):
 
     users_data = []
 
-    for follower in api.friends(screen_name=user_name):
-        users_location = geolocator.geocode(follower.location)
+    try:
+        followers = api.friends(screen_name=user_name)
 
-        # users_location = (0, 0)
-        users_data.append(
-            (follower.screen_name, follower.location, users_location))
+        if followers:
+            for follower in followers:
+                users_location = geolocator.geocode(follower.location)
 
-        print(follower.screen_name)
+                users_data.append(
+                    (follower.screen_name, follower.location, users_location))
+    except Exception:
+        return []
 
     return users_data
 
