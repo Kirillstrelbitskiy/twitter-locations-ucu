@@ -1,12 +1,12 @@
+"""
+Flask app to display twitter friends locations.
+"""
+
 import tweepy
+import folium
 
 from flask import Flask, render_template, Markup, flash
 from flask import request
-import folium
-
-from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
-from wtforms.validators import DataRequired
 
 from geopy.geocoders import Nominatim
 
@@ -17,11 +17,15 @@ access_token_secret = "enter_yourself"
 
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'v'
+app.config['SECRET_KEY'] = 'enter_yourself'
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    """
+    Rendering the webpage.
+    """
+
     folium_map = folium.Map(zoom_start=1)
 
     if request.method == 'POST':
@@ -34,7 +38,8 @@ def index():
                 if user[2]:
                     folium.Marker(
                         [user[2].latitude, user[2].longitude],
-                        popup="<p><b>" + user[0] + "</b><br>" + user[1] + "</p>",
+                        popup="<p><b>" + user[0] +
+                        "</b><br>" + user[1] + "</p>",
                     ).add_to(folium_map)
 
     map_html = Markup(folium_map._repr_html_())
@@ -44,6 +49,10 @@ def index():
 
 
 def get_users_locations(user_name: str):
+    """
+    Get data using tweepy.
+    """
+
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token_key, access_token_secret)
 
